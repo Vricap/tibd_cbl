@@ -116,3 +116,20 @@ $ time hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar wordco
 > Hasil WordCount default:  
 > ![wordcount result default](/resource/wordcount_result_default.png)  
 
+Hapus output default yang pertama (Jika belum pernah dibuat, tidak masalah jika terjadi error):  
+```
+$ hadoop fs -rm /user/kelompok1/output/wordcount_tuned
+```  
+
+Kemudian menjalankan **WordCount** lagi, tetapi kali ini dilakukan *tuning*, job dilakukan dengan 4 *reducer*:  
+```
+$ time hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar wordcount -D mapreduce.job reduces=4 /user/kelompok1/input /user/kelompok1/output/wordcount_default
+```  
+
+> Hasil WordCount Tuned:  
+> ![wordcount result tuned](/resource/wordcount_result_tuned.png)  
+
+Salin hasil dari kedua job ke *shared folder*:  
+```
+$ hadoop fs -get /user/kelompok1/output/wordcount_tuned/part-r-00000 /media/sf_kelompok1/output/wordcount_tuned.txt
+```  
