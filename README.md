@@ -23,6 +23,7 @@ Verifikasi keberadaan file dataset dalam direktori `/user/kelompok1/input` untuk
 $ hadoop fs -ls /user/kelompok1/input
 ```
 > Output seharusnya menampilkan file `vgsales.csv`  
+  
 
 ## Implementasi Hive untuk Analisis Data  
 Analisis data terstruktur dilakukan menggunakan Apache Hive.  
@@ -92,3 +93,26 @@ INSERT OVERWRITE DIRECTORY '/user/kelompok1/output/hive_platform'
 ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
 SELECT Platform, SUM(Global_Sales) FROM vgsales GROUP BY Platform;
 ```  
+
+Eksekusi skrip **Hive** `hive_query.hql`:  
+```
+$ hive -f /media/sf_kelompok1/scripts/hive_query.hql
+```  
+
+Mengambil hasi query dengan disalin ke *shared folder* untuk diolah lebih lanjut:  
+```
+$ hadoop fs -get /user/kelompok1/output/hive_genre/000000_0 /media/sf_kelompok1/output/hive_genre.txt
+```  
+  
+
+## Implementasi dan Perbandingan Kinerja WordCount  
+Eksperimen ini membandingkan kinerja MapReduce dengan konfigurasi default dan yang di-tuning.  
+
+Menjalankan WordCount Default: Job dijalankan dengan 1 reducer dan waktunya dicatat:  
+```
+$ time hadoop jar /usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar wordcount /user/kelompok1/input /user/kelompok1/output/wordcount_default
+```  
+
+> Hasil WordCount default:  
+> ![wordcount result default](/resource/wordcount_result_default.png)  
+
